@@ -14,14 +14,14 @@ const Total = (props) => {
 }
 
 const Part = (props) => {
-  console.log("Part: "); console.log(props)
+  console.log("Part: ", props)
   return (
     <p>{props.part} {props.num}</p>
   )
 }
 
 const Content = (props) => {
-  console.log("Content: "); console.log(props)
+  console.log("Content: ", props)
     return (
       <div>
         <Part part={props.part} num={props.num}/>

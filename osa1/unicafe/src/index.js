@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+const Otsikko = (props) => <h3>{props.text}</h3>
+const Tilasto = (props) => <p>{props.text}: {props.num}</p>
+
 const App = () => {
   // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0)
   const [bad, setBad] = useState(0)
   const [ugly, setUgly] = useState(0)
+  const HyvatPahatJaRumat = () => good + bad + ugly
+  const Avg = (good + bad + ugly) / 3
 
   return (
     <div>
-      <h3>Anna palautetta</h3>
+      <Otsikko text='Anna palautetta' />
       <div>
         <button onClick={() => setGood(good + 1)}>
           hyvä
@@ -21,16 +26,19 @@ const App = () => {
           huono
         </button>
       </div>
+
       <div>
-        <h3>Statistiikka</h3>
+        <Otsikko text='Statistiikka' />
+          <Tilasto text="hyvä: " num={good} />
+          <Tilasto text="neutraali: " num={ugly} />
+          <Tilasto text="huono: " num={bad} />
+          <Tilasto text="yhteensä: " num={good + bad + ugly} />
+
           <p>
-            hyvä: {good}
+            Keskiarvo: {Avg}
           </p>
           <p>
-            neutraali: {ugly}
-          </p>
-          <p>
-            huono: {bad}
+            Positiisia: {} %
           </p>
       </div>
     </div>

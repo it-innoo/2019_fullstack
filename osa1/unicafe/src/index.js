@@ -3,11 +3,15 @@ import ReactDOM from 'react-dom'
 
 const Otsikko = (props) => <h3>{props.text}</h3>
 const Statistics = (props) => {
+  if (props.good + props.bad + props.ugly === 0) {
+    return <p>Ei yhtään palautetta annettu</p>
+  }
+
   return (
     <div>
       <p>hyvä {props.good}</p>
       <p>neutraali {props.ugly}</p>
-      <p>huno {props.bad}</p>
+      <p>huono {props.bad}</p>
       <p>yhteensä {props.good + props.bad + props.ugly}</p>
       <p>keskiarvo {(props.good - props.bad)/(props.good + props.bad + props.ugly)}</p>
       <p>positiivisia {100 * props.good/(props.good + props.bad + props.ugly)} %</p>

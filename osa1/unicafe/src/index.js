@@ -2,7 +2,18 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 const Otsikko = (props) => <h3>{props.text}</h3>
-const Tilasto = (props) => <p>{props.text}: {props.num}</p>
+const Statistics = (props) => {
+  return (
+    <div>
+      <p>hyvä {props.good}</p>
+      <p>neutraali {props.ugly}</p>
+      <p>huno {props.bad}</p>
+      <p>yhteensä {props.good + props.bad + props.ugly}</p>
+      <p>keskiarvo {(props.good - props.bad)/(props.good + props.bad + props.ugly)}</p>
+      <p>positiivisia {100 * props.good/(props.good + props.bad + props.ugly)} %</p>
+    </div>
+  )
+}
 
 const App = () => {
   // tallenna napit omaan tilaansa
@@ -27,12 +38,7 @@ const App = () => {
 
       <div>
         <Otsikko text='Statistiikka' />
-          <Tilasto text="hyvä: " num={good} />
-          <Tilasto text="neutraali: " num={ugly} />
-          <Tilasto text="huono: " num={bad} />
-          <Tilasto text="yhteensä: " num={good + bad + ugly} />
-          <Tilasto text="keskiarvo: " num={(good - bad)/(good + bad + ugly)} />
-          <Tilasto text="positiivisia: " num={100 * good/(good + bad + ugly)} />
+        <Statistics good={good} bad={bad} ugly={ugly} />
       </div>
     </div>
   )

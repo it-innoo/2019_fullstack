@@ -9,9 +9,7 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [bad, setBad] = useState(0)
   const [ugly, setUgly] = useState(0)
-  const HyvatPahatJaRumat = () => good + bad + ugly
-  const Avg = (good + bad + ugly) / 3
-
+  
   return (
     <div>
       <Otsikko text='Anna palautetta' />
@@ -33,13 +31,8 @@ const App = () => {
           <Tilasto text="neutraali: " num={ugly} />
           <Tilasto text="huono: " num={bad} />
           <Tilasto text="yhteensä: " num={good + bad + ugly} />
-
-          <p>
-            Keskiarvo: {Avg}
-          </p>
-          <p>
-            Positiisia: {} %
-          </p>
+          <Tilasto text="keskiarvo: " num={(good - bad)/(good + bad + ugly)} />
+          <Tilasto text="positiivisia: " num={100 * good/(good + bad + ugly)} />
       </div>
     </div>
   )

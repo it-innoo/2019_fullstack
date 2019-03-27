@@ -2,14 +2,21 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 const Otsikko = (props) => <h3>{props.text}</h3>
+
 const Statistic = (props) => {
+  const { text, value } = props
+
   return (
-    <p>{props.text} {props.value} </p>
+    <tr>
+      <td>{text}</td>
+      <td>{value}</td>
+    </tr>
   )
 }
 const Statistics = (props) => {
   const {good, bad, ugly} = props
-  if (props.good + props.bad + props.ugly === 0) {
+
+  if (good + bad + ugly === 0) {
     return <p>Ei yhtään palautetta annettu</p>
   }
 
@@ -20,19 +27,20 @@ const Statistics = (props) => {
     100 * good/(good + bad + ugly) + " %"
 
   return (
-    <div>
+    <table>
+      <tbody>
       <Statistic text="hyvä" value ={good} />
       <Statistic text="neutraali" value ={ugly} />
       <Statistic text="huono" value ={bad} />
       <Statistic text="yhteensä" value={summa()} />
       <Statistic text="keskiarvo" value={keskiarvo()} />
       <Statistic text="positiivisia" value={positiivisia()} />
-    </div>
+      </tbody>
+    </table>
   )
 }
 
 const Button = (props) => {
-  console.log(props)
   const { handleClick, text } = props
   return (
     <button onClick={handleClick}>
@@ -46,7 +54,6 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [bad, setBad] = useState(0)
   const [ugly, setUgly] = useState(0)
-  const [allClicks, setAll] = useState([0, 0, 0])
   
   return (
     <div>

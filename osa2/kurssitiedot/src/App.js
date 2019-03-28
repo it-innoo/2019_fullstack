@@ -1,28 +1,37 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import Course from './components/Course'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+const App = () => {
+  const course = {
+    name: 'Half Stack -sovelluskehitys',
+    parts: [
+      {
+        name: 'Reactin perusteet',
+				exercises: 10,
+				id: 1
+      },
+      {
+        name: 'Tiedonvälitys propseilla',
+				exercises: 7,
+				id: 2
+      },
+      {
+        name: 'Komponenttien tila',
+				exercises: 14,
+				id: 3
+			},
+			{
+        name: 'Redux',
+				exercises: 7,
+				id: 4
+      }
+    ]
   }
+
+  return (
+		<Course course={course} />
+  )
 }
 
-export default App;
+export default App
+

@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-const Header = (props) => {
+const Header = ({ course }) => {
     return (
-        <h1>{props.name}</h1>
+        <h1>{course.name}</h1>
     )
 }
 
@@ -13,17 +13,25 @@ const Total = (props) => {
     )
 }
 
-const Part = (props) => {
+const Part = ({ parts }) => {
   return (
-    <p>{props.part} {props.num}</p>
+		<div>
+			{parts.map(
+				part =>
+				 <p key={part.id}>{part.name} {part.exercises}</p>
+				)
+			}
+		</div>
+		
   )
 }
 
-const Content = (props) => {
+const Content = ({ parts }) => {
+	console.log('Content toimii... ', parts)
     return (
-      <div>
-        <Part part={props.part} num={props.num}/>
-      </div>
+			<div>
+			<Part parts={parts} />
+			</div>
     )
 }
 
@@ -31,10 +39,9 @@ const Course = ({ course }) => {
 	console.log('in Course', course)
 	return (
 		<div>
-			<Header name={course.name}/>
-      <Content part={course.parts[0].name} num={course.parts[0].exercises}/>
-      <Content part={course.parts[1].name} num={course.parts[1].exercises}/>
-      <Content part={course.parts[2].name} num={course.parts[2].exercises}/>
+			<Header course={course}/>
+      <Content parts={course.parts}/>
+      
 		</div>
 	)
 }
@@ -45,15 +52,23 @@ const App = () => {
     parts: [
       {
         name: 'Reactin perusteet',
-        exercises: 10
+				exercises: 10,
+				id: 1
       },
       {
         name: 'Tiedonvälitys propseilla',
-        exercises: 7
+				exercises: 7,
+				id: 2
       },
       {
         name: 'Komponenttien tila',
-        exercises: 14
+				exercises: 14,
+				id: 3
+			},
+			{
+        name: 'Redux',
+				exercises: 7,
+				id: 4
       }
     ]
   }

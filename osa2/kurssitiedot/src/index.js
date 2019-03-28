@@ -27,6 +27,18 @@ const Content = (props) => {
     )
 }
 
+const Course = ({ course }) => {
+	console.log('in Course', course)
+	return (
+		<div>
+			<Header name={course.name}/>
+      <Content part={course.parts[0].name} num={course.parts[0].exercises}/>
+      <Content part={course.parts[1].name} num={course.parts[1].exercises}/>
+      <Content part={course.parts[2].name} num={course.parts[2].exercises}/>
+		</div>
+	)
+}
+
 const App = () => {
   const course = {
     name: 'Half Stack -sovelluskehitys',
@@ -48,15 +60,7 @@ const App = () => {
 
 
   return (
-    <div>
-      <Header name={course.name}/>
-      
-      <Content part={course.parts[0].name} num={course.parts[0].exercises}/>
-      <Content part={course.parts[1].name} num={course.parts[1].exercises}/>
-      <Content part={course.parts[2].name} num={course.parts[2].exercises}/>
-      
-      <Total count={course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises}/>
-    </div>
+		<Course course={course} />
   )
 }
 

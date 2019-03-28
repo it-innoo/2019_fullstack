@@ -7,31 +7,33 @@ const Header = ({ course }) => {
     )
 }
 
-const Total = (props) => {
+const Total = ({ parts }) => {
+  const total = parts.reduce((summa, part) => 
+    summa + part.exercises, 0);
+
     return (
-        <p>Yhteensä {props.count}</p>
+        <p>Yhteensä {total}</p>
     )
 }
 
 const Part = ({ parts }) => {
+  const rows = () =>
+    parts.map(
+    part =>
+     <p key={part.id}>{part.name} {part.exercises}</p>
+  )
+
   return (
-		<div>
-			{parts.map(
-				part =>
-				 <p key={part.id}>{part.name} {part.exercises}</p>
-				)
-			}
-		</div>
-		
+    <section>
+			{rows()}
+		</section>
   )
 }
 
 const Content = ({ parts }) => {
 	console.log('Content toimii... ', parts)
     return (
-			<div>
 			<Part parts={parts} />
-			</div>
     )
 }
 
@@ -41,7 +43,7 @@ const Course = ({ course }) => {
 		<div>
 			<Header course={course}/>
       <Content parts={course.parts}/>
-      
+      <Total parts={course.parts}/>
 		</div>
 	)
 }

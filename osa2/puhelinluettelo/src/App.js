@@ -23,12 +23,18 @@ const App = () => {
       name : newName
     }
 
-    setPersons(persons.concat(personObject))
+    console.log(personObject.name)
+    console.log(persons.some(p => p.name === personObject.name))
+    if (persons.some(p => p.name === personObject.name)) {
+      alert(`${personObject.name} on jo luttelossa`)
+    } else {
+      setPersons(persons.concat(personObject))
+    }
+    
     setNewName('')
   }
 
   const handleNameChange = (event) => {
-    console.log(event.target.value)
     setNewName(event.target.value)
   }
 

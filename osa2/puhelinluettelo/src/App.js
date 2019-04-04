@@ -8,6 +8,7 @@ const App = () => {
     { name: 'Lea Kutvonen', number: '040-123456' }
   ]) 
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
 
   const rows = () => persons.map(person =>
     <p key={person.name}>
@@ -18,11 +19,12 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
-      name : newName
+      name : newName,
+      number : newNumber
     }
 
-    console.log(personObject.name)
-    console.log(persons.some(p => p.name === personObject.name))
+    console.log('lisätään: ' , personObject.name)
+    console.log('onko olemassa: ' , persons.some(p => p.name === personObject.name))
     if (persons.some(p => p.name === personObject.name)) {
       alert(`${personObject.name} on jo luttelossa`)
     } else {
@@ -30,10 +32,15 @@ const App = () => {
     }
     
     setNewName('')
+    setNewNumber('')
   }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
+  }
+
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
   }
 
   return (
@@ -45,6 +52,13 @@ const App = () => {
           <input
             value={newName}
             onChange={handleNameChange}
+          />
+        </div>
+        <div>
+          numero:
+          <input
+            value={newNumber}
+            onChange={handleNumberChange}
           />
         </div>
         <div>

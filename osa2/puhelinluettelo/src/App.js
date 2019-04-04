@@ -2,18 +2,16 @@ import React, { useState } from 'react';
 
 const App = () => {
   const [ persons, setPersons] = useState([
-    {
-      name: 'Arto Hellas',
-    },
-    {
-      name: 'Jukka Ahlgren',
-    },
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Martti Tienari', number: '040-123456' },
+    { name: 'Arto Järvinen', number: '040-123456' },
+    { name: 'Lea Kutvonen', number: '040-123456' }
   ]) 
   const [ newName, setNewName ] = useState('')
 
   const rows = () => persons.map(person =>
     <p key={person.name}>
-      {person.name}
+      {person.name} {person.number}
     </p>
   )
 

@@ -9,8 +9,13 @@ const App = () => {
   ]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+  const [ showNames, setShowNames ] = useState('')
 
-  const rows = () => persons.map(person =>
+  const personsToShow = showNames
+    ? persons
+    : persons.filter(person => person.name.toLowerCase().startsWith(showNames).toLowerCase)
+
+  const rows = () => personsToShow.map(person =>
     <p key={person.name}>
       {person.name} {person.number}
     </p>
@@ -35,6 +40,9 @@ const App = () => {
     setNewNumber('')
   }
 
+  const addFilter = (event) => {
+  }
+
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
@@ -43,9 +51,25 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
+  const handleFilter = (event) => {
+    console.log(event.target.value)
+    setShowNames(event.target.value)
+  }
   return (
     <div>
       <h2>Puhelinluettelo</h2>
+
+      <form onSubmit={addFilter}>
+        <div>
+          rajaa näytettäviä
+          <input
+            value={showNames}
+            onChange={handleFilter}
+          />
+        </div>
+      </form>
+
+      <h2>Lisää uusi</h2>
       <form onSubmit={addPerson}>
         <div>
           nimi: 

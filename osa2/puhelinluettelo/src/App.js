@@ -11,9 +11,8 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ showNames, setShowNames ] = useState('')
 
-  const personsToShow = showNames
-    ? persons
-    : persons.filter(person => person.name.toLowerCase().startsWith(showNames).toLowerCase)
+  const personsToShow = persons
+//    : persons.filter(person => person.name.toLowerCase().startsWith(showNames).toLowerCase)
 
   const rows = () => personsToShow.map(person =>
     <p key={person.name}>

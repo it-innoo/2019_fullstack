@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
+import Filter from './components/Filter'
 
 
 const App = (props) => {
@@ -41,14 +42,10 @@ const App = (props) => {
   return (
     <div>
       <h2>Puhelinluettelo</h2>
-
-        <div>
-          rajaa näytettäviä
-          <input
-            value={showNames}
-            onChange={handleFilter}
-          />
-        </div>
+      <Filter
+        value={showNames}
+        onChangeHandler={handleFilter}
+      />
 
       <h3>Lisää uusi</h3>
       <PersonForm
@@ -60,7 +57,6 @@ const App = (props) => {
       />
 
       <h3>Numerot</h3>
-
       <Persons
         persons={persons}
         showNames={showNames}

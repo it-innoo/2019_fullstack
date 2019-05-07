@@ -1,24 +1,12 @@
 import React, { useState } from 'react';
+import Persons from './components/Persons'
 
-const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Martti Tienari', number: '040-123456' },
-    { name: 'Arto Järvinen', number: '040-123456' },
-    { name: 'Lea Kutvonen', number: '040-123456' }
-  ]) 
+
+const App = (props) => {
+  const [ persons, setPersons] = useState(props.persons) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ showNames, setShowNames ] = useState('')
-
-
-  const rows = () => persons
-    .filter(person => person.name.toLowerCase().startsWith(showNames))
-    .map(person =>
-      <li key={person.name}>
-        {person.name} {person.number}
-      </li>
-    )
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -27,8 +15,6 @@ const App = () => {
       number : newNumber
     }
 
-    console.log('lisätään: ' , personObject.name)
-    console.log('onko olemassa: ' , persons.some(p => p.name === personObject.name))
     if (persons.some(p => p.name === personObject.name)) {
       alert(`${personObject.name} on jo luttelossa`)
     } else {
@@ -48,8 +34,6 @@ const App = () => {
   }
 
   const handleFilter = (event) => {
-    console.log(event.target.value)
-    console.log(persons)
     setShowNames(event.target.value)
   }
 
@@ -87,9 +71,11 @@ const App = () => {
       </form>
 
       <h3>Numerot</h3>
-      <ul>
-        {rows()}
-      </ul>
+
+      <Persons
+        persons={persons}
+        showNames={showNames}
+      />
     </div>
   )
 }

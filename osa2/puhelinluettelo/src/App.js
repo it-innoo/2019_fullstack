@@ -33,11 +33,15 @@ const App = () => {
     if (persons.some(p => p.name === personObject.name)) {
       alert(`${personObject.name} on jo luttelossa`)
     } else {
-      setPersons(persons.concat(personObject))
+      //setPersons(persons.concat(personObject))
+      axios
+        .post('http://localhost:3001/persons', personObject)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+        })
     }
-    
-    setNewName('')
-    setNewNumber('')
   }
 
   const handleNameChange = (event) => {

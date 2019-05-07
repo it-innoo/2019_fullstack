@@ -1,28 +1,22 @@
 import React, { useState } from 'react';
+import Persons from './components/Persons'
+import PersonForm from './components/PersonForm'
+import Filter from './components/Filter'
 
-const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456' },
-    { name: 'Martti Tienari', number: '040-123456' },
-    { name: 'Arto Järvinen', number: '040-123456' },
-    { name: 'Lea Kutvonen', number: '040-123456' }
-  ]) 
+
+const App = (props) => {
+  const [ persons, setPersons] = useState(props.persons) 
   const [ newName, setNewName ] = useState('')
-
-  const rows = () => persons.map(person =>
-    <p key={person.name}>
-      {person.name} {person.number}
-    </p>
-  )
+  const [ newNumber, setNewNumber ] = useState('')
+  const [ showNames, setShowNames ] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
     const personObject = {
-      name : newName
+      name : newName,
+      number : newNumber
     }
 
-    console.log(personObject.name)
-    console.log(persons.some(p => p.name === personObject.name))
     if (persons.some(p => p.name === personObject.name)) {
       alert(`${personObject.name} on jo luttelossa`)
     } else {
@@ -30,31 +24,43 @@ const App = () => {
     }
     
     setNewName('')
+    setNewNumber('')
   }
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
 
+  const handleNumberChange = (event) => {
+    setNewNumber(event.target.value)
+  }
+
+  const handleFilter = (event) => {
+    setShowNames(event.target.value)
+  }
+
   return (
     <div>
       <h2>Puhelinluettelo</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          nimi: 
-          <input
-            value={newName}
-            onChange={handleNameChange}
-          />
-        </div>
-        <div>
-          <button type="submit">lisää</button>
-        </div>
-      </form>
-      <h2>Numerot</h2>
-      <div>
-        {rows()}
-      </div>
+      <Filter
+        value={showNames}
+        onChangeHandler={handleFilter}
+      />
+
+      <h3>Lisää uusi</h3>
+      <PersonForm
+        name={newName}
+        onNameChange={handleNameChange}
+        number={newNumber}
+        onNumberChange={handleNumberChange}
+        submitHandler={addPerson}
+      />
+
+      <h3>Numerot</h3>
+      <Persons
+        persons={persons}
+        showNames={showNames}
+      />
     </div>
   )
 }

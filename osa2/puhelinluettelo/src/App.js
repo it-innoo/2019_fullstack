@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Container, Jumbotron } from 'reactstrap'
+
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
@@ -84,8 +86,11 @@ const App = () => {
   }
 
   return (
-    <div>
-      <h2>Puhelinluettelo</h2>
+    <Container>
+      <Jumbotron>
+        <h2>Puhelinluettelo</h2>
+      </Jumbotron>
+      
       <Filter
         value={showNames}
         onChangeHandler={handleFilter}
@@ -106,7 +111,7 @@ const App = () => {
         showNames={showNames}
         onClickHandler = {handleDelete}
       />
-    </div>
+    </Container>
   )
 }
 

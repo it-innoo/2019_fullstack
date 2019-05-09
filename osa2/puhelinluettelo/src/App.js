@@ -28,18 +28,32 @@ const App = () => {
       number : newNumber
     }
 
-    if (persons.some(p => p.name === personObject.name)) {
-      alert(`${personObject.name} on jo luttelossa`)
-    } else {
-      //setPersons(persons.concat(personObject))
-      personService
-        .create(personObject)
-        .then(newPerson => {
+    const person = persons.find(p => p.name === personObject.name)
+    if (person !== null) {
+      if (window.confirm(`${person.name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
+        const changed = { ...person, number: newNumber}
+        personService
+          .update(person.id, changed)
+          .then(returnedPerson => {
+            //setPersons(persons.map(p => returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          })
+        return
+      } else {
+          setNewName('')
+          setNewNumber('')
+        return
+      }
+    }
+
+    personService
+      .create(personObject)
+      .then(newPerson => {
           setPersons(persons.concat(newPerson))
           setNewName('')
           setNewNumber('')
-        })
-    }
+      })
   }
 
   const handleDelete = (id) => (event) => {
@@ -49,7 +63,7 @@ const App = () => {
       .then(p => {
         if (window.confirm(`Poistetaanko ${p.name}`)) {
           personService.deleteOne(id)
-          setPersons(persons.filter(pe => pe.id !== id))
+          setPersons(persons.filter(p => p.id !== id))
         }
         
       })

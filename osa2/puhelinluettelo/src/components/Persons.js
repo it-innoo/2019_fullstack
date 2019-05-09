@@ -1,14 +1,13 @@
 import React from 'react'
 
-const Person = ( {person} ) => {
-    return (
-      <li>
-        {person.name} {person.number}
-      </li>
-    )
-  }
+const Person = ( {person, onClickHandler} ) => {
+  return (<li>
+    {person.name} {person.number}
+    <button onClick={onClickHandler(person.id)}>Poista</button>
+  </li>);
+}
   
-const Persons = ( {persons,showNames} ) => {
+const Persons = ( {persons,showNames,onClickHandler} ) => {
     return persons
       .filter(person => 
         person.name.toLowerCase().startsWith(showNames))
@@ -16,6 +15,7 @@ const Persons = ( {persons,showNames} ) => {
         <Person
           key={person.name}
           person={person}
+          onClickHandler={onClickHandler}
         />
       )
 }

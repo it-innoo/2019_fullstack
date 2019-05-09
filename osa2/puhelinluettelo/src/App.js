@@ -14,8 +14,8 @@ const App = () => {
   const hook = () => {
     personService
       .getAll()
-      .then(response => {
-        setPersons(response.data)
+      .then(allNames => {
+        setPersons(allNames)
       })
   }
 
@@ -34,13 +34,31 @@ const App = () => {
       //setPersons(persons.concat(personObject))
       personService
         .create(personObject)
-        .then(response => {
-          setPersons(persons.concat(response.data))
+        .then(newPerson => {
+          setPersons(persons.concat(newPerson))
           setNewName('')
           setNewNumber('')
         })
     }
   }
+
+  const handleDelete = (id) => (event) => {
+    
+    personService
+      .getOne(id)
+      .then(p => {
+        if (window.confirm(`Poistetaanko ${p.name}`)) {
+          personService
+            .deleteOne(id)
+            .then(deleted => {
+              setPersons(persons.filter(pe => pe.id !== p.id))
+            })
+        }
+        
+      })
+    
+  }
+
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -75,6 +93,7 @@ const App = () => {
       <Persons
         persons={persons}
         showNames={showNames}
+        onClickHandler = {handleDelete}
       />
     </div>
   )

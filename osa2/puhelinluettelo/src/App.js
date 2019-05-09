@@ -19,7 +19,7 @@ const App = () => {
       })
   }
 
-  useEffect(hook, [])
+  useEffect(hook, [persons])
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -50,9 +50,6 @@ const App = () => {
         if (window.confirm(`Poistetaanko ${p.name}`)) {
           personService
             .deleteOne(id)
-            .then(deleted => {
-              setPersons(persons.filter(pe => pe.id !== p.id))
-            })
         }
         
       })

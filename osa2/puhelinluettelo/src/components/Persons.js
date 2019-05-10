@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Person = ( {person, onClickHandler} ) => {
+  console.log('Person toimii.. ', person)
   return (<li>
     {person.name} {person.number}
     <button onClick={onClickHandler(person.id)}>Poista</button>
@@ -8,7 +9,9 @@ const Person = ( {person, onClickHandler} ) => {
 }
   
 const Persons = ( {persons,showNames,onClickHandler} ) => {
-    return persons
+  console.log('Persons toimii.. ', persons)
+    return (
+      persons
       .filter(person => 
         person.name.toLowerCase().startsWith(showNames))
       .map(person =>
@@ -18,6 +21,7 @@ const Persons = ( {persons,showNames,onClickHandler} ) => {
           onClickHandler={onClickHandler}
         />
       )
+    )
 }
 
   

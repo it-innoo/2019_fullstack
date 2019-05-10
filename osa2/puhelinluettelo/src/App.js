@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Jumbotron } from 'reactstrap'
 
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
 import personService from './services/persons'
 
 
@@ -12,6 +12,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ showNames, setShowNames ] = useState('')
+  const [ noteMessage, setNoteMessage] = useState(null)
 
   const hook = () => {
     personService
@@ -24,6 +25,8 @@ const App = () => {
   useEffect(hook, [])
 
   const addPerson = (event) => {
+    console.log('addPerson toimii,,, ', event.target)
+
     event.preventDefault()
     const personObject = {
       name : newName,
@@ -31,31 +34,41 @@ const App = () => {
     }
 
     const person = persons.find(p => p.name === personObject.name)
-    if (person !== null) {
+    if (person !== undefined) {
       if (window.confirm(`${person.name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
         const changed = { ...person, number: newNumber}
+        
         personService
           .update(person.id, changed)
           .then(returnedPerson => {
-            //setPersons(persons.map(p => returnedPerson))
+            const index = person.index
+            persons[index] = personObject
+            setPersons(persons)
+            
+            setNoteMessage(`Muokattiin ${person.name}`)
+            setTimeout(() => {
+              setNoteMessage(null)
+            }, 5000)
             setNewName('')
             setNewNumber('')
           })
-        return
-      } else {
-          setNewName('')
-          setNewNumber('')
-        return
       }
+      } else {
+        console.log('addPerson create oimii,,, ', person)
+        personService
+          .create(personObject)
+          .then(newPerson => {
+            setPersons(persons.concat(newPerson))
+            setNoteMessage(`Lisättiin ${newPerson.name}`)
+            setTimeout(() => {
+              setNoteMessage(null)
+            }, 5000)
+            setNewName('')
+            setNewNumber('')
+        })
+      
     }
 
-    personService
-      .create(personObject)
-      .then(newPerson => {
-          setPersons(persons.concat(newPerson))
-          setNewName('')
-          setNewNumber('')
-      })
   }
 
   const handleDelete = (id) => (event) => {
@@ -65,7 +78,13 @@ const App = () => {
       .then(p => {
         if (window.confirm(`Poistetaanko ${p.name}`)) {
           personService.deleteOne(id)
+          setNoteMessage(
+            `${p.name} yhteystieto poistettu`
+          )
           setPersons(persons.filter(p => p.id !== id))
+          setTimeout(() => {
+            setNoteMessage(null)
+          }, 5000)
         }
         
       })
@@ -85,12 +104,14 @@ const App = () => {
     setShowNames(event.target.value)
   }
 
+  console.log('App toimii...')
   return (
-    <Container>
-      <Jumbotron>
-        <h2>Puhelinluettelo</h2>
-      </Jumbotron>
+    
+    <div className="app">
+      <h2>Puhelinluettelo</h2>
       
+      <Notification message={noteMessage} />
+
       <Filter
         value={showNames}
         onChangeHandler={handleFilter}
@@ -106,12 +127,14 @@ const App = () => {
       />
 
       <h3>Numerot</h3>
-      <Persons
-        persons={persons}
-        showNames={showNames}
-        onClickHandler = {handleDelete}
-      />
-    </Container>
+        <ul>
+        <Persons
+          persons={persons}
+          showNames={showNames}
+          onClickHandler = {handleDelete}
+        />
+        </ul>
+    </div>
   )
 }
 

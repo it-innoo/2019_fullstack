@@ -4,6 +4,7 @@ import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import Notification from './components/Notification'
+import Warning from './components/Warning'
 import personService from './services/persons'
 
 
@@ -13,6 +14,7 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ showNames, setShowNames ] = useState('')
   const [ noteMessage, setNoteMessage] = useState(null)
+  const [ warnMessage, setWarnMessage] = useState(null)
 
   const hook = () => {
     personService
@@ -50,6 +52,17 @@ const App = () => {
             setNoteMessage(`Muokattiin ${person.name}`)
             setTimeout(() => {
               setNoteMessage(null)
+            }, 5000)
+            setNewName('')
+            setNewNumber('')
+          })
+          .catch(error => {
+            setWarnMessage(
+              `Henkilö '${person.name}' on jo valitettavasti poistettu palvelimelta`
+            )
+            setPersons(persons.filter(p => p.id !== person.id))
+            setTimeout(() => {
+              setWarnMessage(null)
             }, 5000)
             setNewName('')
             setNewNumber('')
@@ -111,6 +124,7 @@ const App = () => {
       <h2>Puhelinluettelo</h2>
       
       <Notification message={noteMessage} />
+      <Warning message={warnMessage} />
 
       <Filter
         value={showNames}

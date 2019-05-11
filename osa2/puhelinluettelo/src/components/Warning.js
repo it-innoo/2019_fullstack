@@ -1,12 +1,12 @@
 import React from 'react'
 
-const Notification = ({ message }) => {
-    console.log('Notification messahe: ', message)
+const Warning = ({ message }) => {
+    console.log('Warning messahe: ', message)
     if (message === null) {
       return null
     }
   
-    let clazz = 'note'
+    let clazz = 'error'
     return (
       <div className={clazz}>
         {message}
@@ -14,4 +14,4 @@ const Notification = ({ message }) => {
     )
   }
 
-  export default Notification
+  export default Warning

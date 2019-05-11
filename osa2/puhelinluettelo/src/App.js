@@ -37,14 +37,15 @@ const App = () => {
       if (window.confirm(`${person.name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
         const changedPerson = { ...person, number: newNumber}
         
-        const idx = persons.findIndex(p => p.id === person.id)
-            
         personService
           .update(person.id, changedPerson)
           .then(returnedPerson => {
-            
-            persons.splice(idx, 1, returnedPerson)
-            setPersons(persons)
+            setPersons(
+              persons
+                .map(
+                  p => p.id !== person.id ? p : returnedPerson
+                  )
+            )
 
             setNoteMessage(`Muokattiin ${person.name}`)
             setTimeout(() => {

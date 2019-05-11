@@ -25,7 +25,6 @@ const App = () => {
   useEffect(hook, [])
 
   const addPerson = (event) => {
-    console.log('addPerson toimii,,, ', event.target)
 
     event.preventDefault()
     const personObject = {
@@ -36,15 +35,17 @@ const App = () => {
     const person = persons.find(p => p.name === personObject.name)
     if (person !== undefined) {
       if (window.confirm(`${person.name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
-        const changed = { ...person, number: newNumber}
+        const changedPerson = { ...person, number: newNumber}
         
-        personService
-          .update(person.id, changed)
-          .then(returnedPerson => {
-            const index = person.index
-            persons[index] = personObject
-            setPersons(persons)
+        const idx = persons.findIndex(p => p.id === person.id)
             
+        personService
+          .update(person.id, changedPerson)
+          .then(returnedPerson => {
+            
+            persons.splice(idx, 1, returnedPerson)
+            setPersons(persons)
+
             setNoteMessage(`Muokattiin ${person.name}`)
             setTimeout(() => {
               setNoteMessage(null)
@@ -54,7 +55,6 @@ const App = () => {
           })
       }
       } else {
-        console.log('addPerson create oimii,,, ', person)
         personService
           .create(personObject)
           .then(newPerson => {
@@ -104,7 +104,6 @@ const App = () => {
     setShowNames(event.target.value)
   }
 
-  console.log('App toimii...')
   return (
     
     <div className="app">
@@ -127,13 +126,11 @@ const App = () => {
       />
 
       <h3>Numerot</h3>
-        <ul>
         <Persons
           persons={persons}
           showNames={showNames}
           onClickHandler = {handleDelete}
         />
-        </ul>
     </div>
   )
 }

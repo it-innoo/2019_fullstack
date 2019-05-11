@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'
+
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
+import Notification from './components/Notification'
+import Warning from './components/Warning'
+import personService from './services/persons'
 
 
 const App = () => {
@@ -10,35 +13,98 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ showNames, setShowNames ] = useState('')
+  const [ noteMessage, setNoteMessage] = useState(null)
+  const [ warnMessage, setWarnMessage] = useState(null)
 
   const hook = () => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(allNames => {
+        setPersons(allNames)
       })
   }
 
   useEffect(hook, [])
 
   const addPerson = (event) => {
+
     event.preventDefault()
     const personObject = {
       name : newName,
       number : newNumber
     }
 
-    if (persons.some(p => p.name === personObject.name)) {
-      alert(`${personObject.name} on jo luttelossa`)
-    } else {
-      setPersons(persons.concat(personObject))
+    const person = persons.find(p => p.name === personObject.name)
+    if (person !== undefined) {
+      if (window.confirm(`${person.name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
+        const changedPerson = { ...person, number: newNumber}
+        
+        personService
+          .update(person.id, changedPerson)
+          .then(returnedPerson => {
+            setPersons(
+              persons
+                .map(
+                  p => p.id !== person.id ? p : returnedPerson
+                  )
+            )
+
+            setNoteMessage(`Muokattiin ${person.name}`)
+            setTimeout(() => {
+              setNoteMessage(null)
+            }, 5000)
+            setNewName('')
+            setNewNumber('')
+          })
+          .catch(error => {
+            setWarnMessage(
+              `Henkilö '${person.name}' on jo valitettavasti poistettu palvelimelta`
+            )
+            setPersons(persons.filter(p => p.id !== person.id))
+            setTimeout(() => {
+              setWarnMessage(null)
+            }, 5000)
+            setNewName('')
+            setNewNumber('')
+          })
+      }
+      } else {
+        personService
+          .create(personObject)
+          .then(newPerson => {
+            setPersons(persons.concat(newPerson))
+            setNoteMessage(`Lisättiin ${newPerson.name}`)
+            setTimeout(() => {
+              setNoteMessage(null)
+            }, 5000)
+            setNewName('')
+            setNewNumber('')
+        })
+      
     }
-    
-    setNewName('')
-    setNewNumber('')
+
   }
+
+  const handleDelete = (id) => (event) => {
+    
+    personService
+      .getOne(id)
+      .then(p => {
+        if (window.confirm(`Poistetaanko ${p.name}`)) {
+          personService.deleteOne(id)
+          setNoteMessage(
+            `${p.name} yhteystieto poistettu`
+          )
+          setPersons(persons.filter(p => p.id !== id))
+          setTimeout(() => {
+            setNoteMessage(null)
+          }, 5000)
+        }
+        
+      })
+    
+  }
+
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -53,8 +119,13 @@ const App = () => {
   }
 
   return (
-    <div>
+    
+    <div className="app">
       <h2>Puhelinluettelo</h2>
+      
+      <Notification message={noteMessage} />
+      <Warning message={warnMessage} />
+
       <Filter
         value={showNames}
         onChangeHandler={handleFilter}
@@ -70,10 +141,11 @@ const App = () => {
       />
 
       <h3>Numerot</h3>
-      <Persons
-        persons={persons}
-        showNames={showNames}
-      />
+        <Persons
+          persons={persons}
+          showNames={showNames}
+          onClickHandler = {handleDelete}
+        />
     </div>
   )
 }

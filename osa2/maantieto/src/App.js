@@ -17,8 +17,40 @@ const Filter = ({toShow, onChangeHandler}) => {
   )
 }
 
+const Weather = ({city}) => {
+
+  const endpoint = useState(`https://api.apixu.com/v1/current.json?key=d68ee55761624662b8870114191305&q=${city}`)
+  const [data, setData] = useState(null)
+  useEffect(() => {
+    axios
+      .get(endpoint)
+      .then(response => {
+        setData(response.data.current)
+        
+
+      })
+  }, [endpoint])
+
+  if (data === null) {
+    return (<div></div>)
+  }
+
+  return (
+    
+    <div>
+      <p>Lämpötila: <span>{data.temp_c} &#8451;</span></p>
+      <img
+        src={data.condition.icon}
+        alt={data.condition.text}
+        width="64"
+        height="64"
+      />
+      <p>Tuuli: <span>{data.wind_kph} km/h suunta {data.wind_dir}</span></p>
+    </div>
+  )
+}
+
 const CountryDetails = ( {country} ) => {
-  const languages = country.languages
 
   return (
     <div>
@@ -29,11 +61,19 @@ const CountryDetails = ( {country} ) => {
 
       <h3>Kielet</h3>
       <ul>
-        {languages.map((language) => (
+        {country.languages.map((language) => (
           <li key={language.name}>{language.name}</li>
         ))}        
       </ul>
-      <img src={country.flag} alt="Lippu" width="128" height="128" />
+      <img
+        src={country.flag}
+        alt="Lippu"
+        width="128"
+        height="128"
+      />
+
+    <h3>Säätila {country.capital}</h3>
+      <Weather city={country.capital} />
     </div>
   )
 }
@@ -114,6 +154,8 @@ const App = () => {
   }
 
   const handleClick = (value) => (event) => {
+    setCriteria('')
+
     setCountries(
       countries
         .filter(country => (

@@ -154,7 +154,7 @@ const App = () => {
   }
 
   const handleClick = (value) => (event) => {
-    setCriteria('')
+    setCountries([])
 
     setCountries(
       countries

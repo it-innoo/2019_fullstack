@@ -23,11 +23,11 @@ const CountryDetails = ( {country} ) => {
   return (
     <div>
       <h2>{country.name}</h2>
-      <br />
-      <p>Capital <span>{country.capital}</span></p>
-      <p>Population <span>{country.population}</span></p>
 
-      <h3>Languages</h3>
+      <p>Pääkaupunki <span>{country.capital}</span></p>
+      <p>Väkiluku <span>{country.population}</span></p>
+
+      <h3>Kielet</h3>
       <ul>
         {languages.map((language) => (
           <li key={language.name}>{language.name}</li>
@@ -38,15 +38,22 @@ const CountryDetails = ( {country} ) => {
   )
 }
 
-const Country = ( {value} ) => {
+const Country = ( {value, onClickHandler} ) => {
   return (
-    <p>{value.name}</p>
+    <div>
+      <span>{value.name}</span>
+      <button onClick={onClickHandler(value)}>Näytä</button>
+    </div>
   )
 }
 
-const Countries = ( { countries, show} ) => {
+const Countries = ( { countries, show, onClickHandler} ) => {
   countries = countries
-    .filter(country => country.name.toLowerCase().includes(show))
+    .filter(country =>
+      country.name
+        .toLowerCase()
+        .includes(show.toLowerCase())
+      )
     
 
   if (countries.length > 10) {
@@ -61,6 +68,7 @@ const Countries = ( { countries, show} ) => {
             <Country
               key={country.name}
               value={country}
+              onClickHandler={onClickHandler}
             />
           )
         }
@@ -105,6 +113,14 @@ const App = () => {
     setCriteria(event.target.value)
   }
 
+  const handleClick = (value) => (event) => {
+    setCountries(
+      countries
+        .filter(country => (
+          country === value
+        ))
+    )
+  }
 
   return (
     <div className="App">
@@ -115,13 +131,14 @@ const App = () => {
         />
       </header>
 
-      <aside>
+      <main>
         <Countries
           countries={countries}
           show={criteria}
+          onClickHandler={handleClick}
         />
 
-      </aside>
+      </main>
     </div>
   )
 }

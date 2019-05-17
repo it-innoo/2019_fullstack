@@ -35,6 +35,8 @@ const App = () => {
     }
 
     const person = persons.find(p => p.name === personObject.name)
+
+    console.log(`frontend: ${person}`)
     if (person !== undefined) {
       if (window.confirm(`${person.name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
         const changedPerson = { ...person, number: newNumber}
@@ -79,7 +81,16 @@ const App = () => {
             }, 5000)
             setNewName('')
             setNewNumber('')
-        })
+          })
+          .catch(error => {
+            console.log('frontend create error: ', JSON.stringify(error.response.data))
+            setWarnMessage(
+              error.response.data.error
+            )
+            setTimeout(() => {
+              setWarnMessage(null)
+            }, 5000)
+          })
       
     }
 

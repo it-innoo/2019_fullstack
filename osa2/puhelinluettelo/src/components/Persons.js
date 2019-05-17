@@ -13,10 +13,12 @@ const Persons = ( {persons,showNames,onClickHandler} ) => {
         <ul>
           {persons
             .filter(person => 
-              person.name.toLowerCase().startsWith(showNames))
+              person.name
+              .toLowerCase()
+              .startsWith(showNames))
             .map(person =>
               <Person
-                key={person.name}
+                key={person.id}
                 person={person}
                 onClickHandler={onClickHandler}
               />

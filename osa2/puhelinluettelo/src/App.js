@@ -34,66 +34,25 @@ const App = () => {
       number : newNumber
     }
 
-    const person = persons.find(p => p.name === personObject.name)
-
-    console.log(`frontend: ${person}`)
-    if (person !== undefined) {
-      if (window.confirm(`${person.name} on jo luettelossa, korvataanko vanha numero uudella?`)) {
-        const changedPerson = { ...person, number: newNumber}
-        
-        personService
-          .update(person.id, changedPerson)
-          .then(returnedPerson => {
-            setPersons(
-              persons
-                .map(
-                  p => p.id !== person.id ? p : returnedPerson
-                  )
-            )
-
-            setNoteMessage(`Muokattiin ${person.name}`)
-            setTimeout(() => {
-              setNoteMessage(null)
-            }, 5000)
-            setNewName('')
-            setNewNumber('')
-          })
-          .catch(error => {
-            setWarnMessage(
-              `Henkilö '${person.name}' on jo valitettavasti poistettu palvelimelta`
-            )
-            setPersons(persons.filter(p => p.id !== person.id))
-            setTimeout(() => {
-              setWarnMessage(null)
-            }, 5000)
-            setNewName('')
-            setNewNumber('')
-          })
-      }
-      } else {
-        personService
-          .create(personObject)
-          .then(newPerson => {
-            setPersons(persons.concat(newPerson))
-            setNoteMessage(`Lisättiin ${newPerson.name}`)
-            setTimeout(() => {
-              setNoteMessage(null)
-            }, 5000)
-            setNewName('')
-            setNewNumber('')
-          })
-          .catch(error => {
-            console.log('frontend create error: ', JSON.stringify(error.response.data))
-            setWarnMessage(
-              error.response.data.error
-            )
-            setTimeout(() => {
-              setWarnMessage(null)
-            }, 5000)
-          })
-      
-    }
-
+    personService
+      .create(personObject)
+      .then(newPerson => {
+        setPersons(persons.concat(newPerson))
+        setNoteMessage(`Lisättiin ${newPerson.name}`)
+        setTimeout(() => {
+          setNoteMessage(null)
+        }, 5000)
+        setNewName('')
+        setNewNumber('')
+      })
+      .catch(error => {
+        setWarnMessage(error.response.data.error)
+        setTimeout(() => {
+          setWarnMessage(null)
+        }, 5000)
+        setNewName('')
+        setNewNumber('')
+      })
   }
 
   const handleDelete = (id) => (event) => {

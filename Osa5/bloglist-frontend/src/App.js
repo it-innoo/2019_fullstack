@@ -15,9 +15,20 @@ const App = () => {
     blogService.getAll().then(blogit => setBlogs(blogit))
   }, [])
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage
+      .getItem('loggedinUser')
+
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
+
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging in with', username, password)
+
     try {
       const user = await loginService.login({
         username, password
@@ -27,6 +38,7 @@ const App = () => {
         'loggedinUser', JSON.stringify(user)
       )
 
+      blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
@@ -35,11 +47,18 @@ const App = () => {
     }
   }
 
+  const handleLogout = () => {
+    window.localStorage.clear()
+    console.log(`${user.name} logged out`)
+
+    setUser(null)
+  }
+
   const blogForm = () => {
     return (
       <section>
         <p>{user.name} logged in</p>
-        <button>logout</button>
+        <button onClick={handleLogout}>logout</button>
         <h2>blogs</h2>
         {blogs.map(blog =>
           <Blog key={blog.id} blog={blog} />
@@ -60,6 +79,8 @@ const App = () => {
               value={username}
               id="username"
               name="username"
+              required
+              autoFocus
               onChange={({ target }) => setUsername(target.value)}
             />
           </div>
@@ -70,6 +91,7 @@ const App = () => {
               value={password}
               id="password"
               name="password"
+              required
               onChange={({ target }) => setPassword(target.value)}
             />
           </div>
@@ -86,8 +108,10 @@ const App = () => {
         <h1>Blogilista</h1>
       </header>
 
-      {user === null && loginForm()}
-      {user !== null && blogForm()}
+      {user === null ?
+        loginForm() :
+        blogForm()
+      }
 
     </div>
   )

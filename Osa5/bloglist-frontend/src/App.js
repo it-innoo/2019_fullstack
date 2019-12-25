@@ -9,7 +9,48 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
+
   const [blogs, setBlogs] = useState([])
+
+  const addBlog = async (event) => {
+    event.preventDefault()
+
+    const newBlog = {
+      title: title,
+      author: author,
+      url: url,
+    }
+
+    try {
+      await blogService
+        .create(newBlog)
+
+      setAuthor('')
+      setTitle('')
+      setUrl('')
+
+      console.log('ADD:', newBlog)
+    } catch (error) {
+      console.log(error.value)
+    }
+
+  }
+
+  const handleAuthorChange = (event) => {
+    setAuthor(event.target.value)
+  }
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value)
+  }
+
+
+  const handleUrlChange = (event) => {
+    setUrl(event.target.value)
+  }
 
   useEffect(() => {
     blogService.getAll().then(blogit => setBlogs(blogit))
@@ -57,12 +98,52 @@ const App = () => {
   const blogForm = () => {
     return (
       <section>
+        <h2>blogs</h2>
+
         <p>{user.name} logged in</p>
         <button onClick={handleLogout}>logout</button>
-        <h2>blogs</h2>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
-        )}
+
+        <h2>create new</h2>
+
+        <form onSubmit={addBlog}>
+          <div>
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              placeholder='Blog title'
+              autoFocus
+              onChange={handleTitleChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="author">Author</label>
+            <input
+              type="text"
+              id="author"
+              name="author"
+              placeholder='Blog author'
+              onChange={handleAuthorChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="url">Url</label>
+            <input
+              type="text"
+              id="url"
+              name="url"
+              placeholder='Blog url'
+              onChange={handleUrlChange}
+            />
+          </div>
+          <button type="submit">create</button>
+        </form>
+        <ul>
+          {blogs.map(blog =>
+            <Blog key={blog.id} blog={blog} />
+          )}
+        </ul>
       </section>
     )
   }
@@ -79,6 +160,7 @@ const App = () => {
               value={username}
               id="username"
               name="username"
+              placeholder="Username"
               required
               autoFocus
               onChange={({ target }) => setUsername(target.value)}
@@ -91,6 +173,7 @@ const App = () => {
               value={password}
               id="password"
               name="password"
+              placeholder="Password"
               required
               onChange={({ target }) => setPassword(target.value)}
             />

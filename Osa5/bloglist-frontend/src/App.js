@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import './App.css'
@@ -8,6 +9,9 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+
+  const [message, setMessage] = useState(null)
+  const [role, setRole] = useState('alert-error')
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -32,11 +36,19 @@ const App = () => {
       setTitle('')
       setUrl('')
 
-      console.log('ADD:', newBlog)
-    } catch (error) {
-      console.log(error.value)
-    }
+      blogService.getAll().then(blogit => setBlogs(blogit))
 
+      setMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
+      setRole('alert-info')
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    } catch (error) {
+      setMessage("Add a new blog failed!")
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    }
   }
 
   const handleAuthorChange = (event) => {
@@ -85,13 +97,20 @@ const App = () => {
       setPassword('')
     } catch (error) {
       console.log('bad credentials')
+      setMessage('wrong username and password')
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
   }
 
   const handleLogout = () => {
     window.localStorage.clear()
-    console.log(`${user.name} logged out`)
-
+    setMessage(`${user.name} logged out`)
+    setRole('alert-info')
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
     setUser(null)
   }
 
@@ -190,6 +209,8 @@ const App = () => {
       <header>
         <h1>Blogilista</h1>
       </header>
+
+      <Notification message={message} className={role} />
 
       {user === null ?
         loginForm() :

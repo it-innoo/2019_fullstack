@@ -38,7 +38,7 @@ h1 {
   font-size: 15px;
 }
 
-.info {
+.alert-info {
   color: green;
   background: lightgrey;
   font-size: 20px;
@@ -48,7 +48,7 @@ h1 {
   margin-bottom: 10px;
 }
 
-.error {
+.alert-error {
   color: red;
   background: lightgrey;
   font-size: 20px;

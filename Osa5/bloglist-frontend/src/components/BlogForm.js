@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
-import Blog from './Blog'
 import Notification from './Notification'
 import blogService from '../services/blogs'
 
@@ -13,7 +12,7 @@ const BlogForm = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
-  const [blogs, setBlogs] = useState([])
+  // const [blogs, setBlogs] = useState([])
 
   const addBlog = async (event) => {
     event.preventDefault()
@@ -32,7 +31,7 @@ const BlogForm = () => {
       setTitle('')
       setUrl('')
 
-      blogService.getAll().then(blogit => setBlogs(blogit))
+      //blogService.getAll().then(blogit => setBlogs(blogit))
 
       setMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
       setRole('alert-info')
@@ -59,10 +58,6 @@ const BlogForm = () => {
   const handleUrlChange = (event) => {
     setUrl(event.target.value)
   }
-
-  useEffect(() => {
-    blogService.getAll().then(blogit => setBlogs(blogit))
-  }, [])
 
   const hideWhenVisible = { display: blogsVisible ? 'none' : '' }
   const showWhenVisible = { display: blogsVisible ? '' : 'none' }
@@ -121,11 +116,7 @@ const BlogForm = () => {
         </form>
         <button onClick={() => setBlogsVisible(false)}>cancel</button>
       </div>
-      <ul>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
-        )}
-      </ul>
+
     </section>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import BlogForm from './components/BlogForm'
+import Blogs from './components/Blogs'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -55,7 +55,7 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.clear()
     setMessage(`${user.name} logged out`)
-    setRole('alert-error')
+    setRole('alert-info')
     setTimeout(() => {
       setMessage(null)
     }, 5000)
@@ -65,9 +65,13 @@ const App = () => {
 
   const blogForm = () => {
     return (
-      <BlogForm
-
-      />
+      <div>
+        <p>{user.name} logged in</p>
+        <button className="btn-logout" onClick={handleLogout}>
+          logout
+          </button>
+        <Blogs />
+      </div>
     )
   }
 
@@ -119,14 +123,7 @@ const App = () => {
       />
       {user === null ?
         loginForm() :
-        <div>
-          <p>{user.name} logged in</p>
-          <button className="btn-logout" onClick={handleLogout}>
-            logout
-          </button>
-          {blogForm()}
-        </div>
-
+        blogForm()
       }
 
     </div>

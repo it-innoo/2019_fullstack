@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import blogService from '../services/blogs'
 
 const Blog = ({ blog }) => {
   const [showDetails, setShowDetails] = useState(false)
@@ -14,6 +15,16 @@ const Blog = ({ blog }) => {
   const handleClick = (event) => {
     event.preventDefault()
     setShowDetails(!showDetails)
+  }
+
+  const handleLikes = (event) => {
+    event.preventDefault()
+    const likedBlog = { ...blog, likes: blog.likes += 1 }
+    try {
+      blogService.like(likedBlog.id, likedBlog)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const show = () => {
@@ -40,7 +51,7 @@ const Blog = ({ blog }) => {
           </a>
           <p>
             {blog.likes} tykkäystä
-            <button>
+            <button onClick={handleLikes}>
               like
             </button>
           </p>

@@ -11,9 +11,22 @@ const Blogs = () => {
     blogService.getAll().then(blogit => setBlogs(blogit))
   }, [])
 
+  const blogFormRef = React.createRef()
+
+  const addBlog = () => {
+    blogService.getAll().then(blogit => setBlogs(blogit))
+    blogFormRef.current.toggleVisibility()
+  }
+
   const blogForm = () => {
     return (
-      <BlogForm />
+      <Togglable
+        buttonLabel="New Blog"
+        ref={blogFormRef}>
+        <BlogForm
+          onSubmit={addBlog}
+        />
+      </Togglable>
     )
   }
   const user = window.localStorage.getItem('loggedinUser')

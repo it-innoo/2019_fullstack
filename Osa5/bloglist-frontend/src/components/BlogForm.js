@@ -3,16 +3,13 @@ import React, { useState } from 'react'
 import Notification from './Notification'
 import blogService from '../services/blogs'
 
-const BlogForm = () => {
-  const [blogsVisible, setBlogsVisible] = useState(false)
+const BlogForm = ({ onSubmit }) => {
   const [message, setMessage] = useState(null)
   const [role, setRole] = useState('alert-error')
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-
-  // const [blogs, setBlogs] = useState([])
 
   const addBlog = async (event) => {
     event.preventDefault()
@@ -27,11 +24,10 @@ const BlogForm = () => {
       await blogService
         .create(newBlog)
 
+      onSubmit()
       setAuthor('')
       setTitle('')
       setUrl('')
-
-      //blogService.getAll().then(blogit => setBlogs(blogit))
 
       setMessage(`a new blog ${newBlog.title} by ${newBlog.author} added`)
       setRole('alert-info')
@@ -59,10 +55,6 @@ const BlogForm = () => {
     setUrl(event.target.value)
   }
 
-  const hideWhenVisible = { display: blogsVisible ? 'none' : '' }
-  const showWhenVisible = { display: blogsVisible ? '' : 'none' }
-
-
 
   return (
     <section>
@@ -73,11 +65,9 @@ const BlogForm = () => {
 
       <h2>blogs</h2>
 
-      <div style={hideWhenVisible}>
-        <button onClick={() => setBlogsVisible(true)}>New Blog</button>
-      </div>
 
-      <div style={showWhenVisible}>
+
+      <div>
         <h2>Create new blog</h2>
 
         <form onSubmit={addBlog}>
@@ -114,7 +104,6 @@ const BlogForm = () => {
           </div>
           <button type="submit">create</button>
         </form>
-        <button onClick={() => setBlogsVisible(false)}>cancel</button>
       </div>
 
     </section>

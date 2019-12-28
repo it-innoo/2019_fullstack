@@ -27,6 +27,17 @@ const Blog = ({ blog }) => {
     }
   }
 
+  const handleRemove = (event) => {
+    event.preventDefault()
+    try {
+      if (window.confirm(`remove blog ${blog.title}`)) {
+        blogService.remove(blog.id)
+      }
+    } catch (error) {
+      console.log('error is: ', error)
+    }
+  }
+
   const show = () => {
     return (
       <div>
@@ -58,6 +69,9 @@ const Blog = ({ blog }) => {
           <p>
             Added by {blog.user[0].name}
           </p>
+          <button onClick={handleRemove}>
+            remove
+          </button>
         </div>
 
       </div>

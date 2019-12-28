@@ -31,13 +31,19 @@ const Blogs = () => {
   }
   const user = window.localStorage.getItem('loggedinUser')
 
+
+  //blogs.sort((a, b) => b.likes - a.likes)
+
   return (
     <div>
       {user !== null && blogForm()}
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+      {blogs
+        .sort((a, b) => b.likes - a.likes)
+        .map(blog =>
+          <Blog key={blog.id} blog={blog} />
+        )}
     </div>
+
   )
 }
 

@@ -50,6 +50,10 @@ const Blog = ({ blog }) => {
 
   const showAll = () => {
 
+    const user = window
+      .localStorage
+      .getItem('loggedinUser')
+
     return (
       <div>
         <p onClick={handleClick}>
@@ -69,9 +73,12 @@ const Blog = ({ blog }) => {
           <p>
             Added by {blog.user[0].name}
           </p>
-          <button onClick={handleRemove}>
-            remove
-          </button>
+          {user && JSON.parse(user).name === blog.user[0].name ?
+            <button onClick={handleRemove}>
+              remove
+          </button> :
+            <p></p>
+          }
         </div>
 
       </div>

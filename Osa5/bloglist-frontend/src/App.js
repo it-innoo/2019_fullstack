@@ -69,7 +69,7 @@ const App = () => {
         <p>{user.name} logged in</p>
         <button className="btn-logout" onClick={handleLogout}>
           logout
-          </button>
+        </button>
         <Blogs />
       </div>
     )
@@ -130,4 +130,4 @@ const App = () => {
   )
 }
 
-export default App;
+export default App

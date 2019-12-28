@@ -35,7 +35,7 @@ const BlogForm = ({ onSubmit }) => {
         setMessage(null)
       }, 5000)
     } catch (error) {
-      setMessage("Add a new blog failed!")
+      setMessage('Add a new blog failed!')
       setTimeout(() => {
         setMessage(null)
       }, 5000)

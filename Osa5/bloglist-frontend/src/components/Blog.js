@@ -76,7 +76,7 @@ const Blog = ({ blog }) => {
           {user && JSON.parse(user).name === blog.user[0].name ?
             <button onClick={handleRemove}>
               remove
-          </button> :
+            </button> :
             <p></p>
           }
         </div>

@@ -51,8 +51,12 @@ const Blogs = () => {
 
   return (
     <main className="blogs">
+<<<<<<< HEAD
       <Header />
       {blogForm()}
+=======
+      {user !== null && blogForm()}
+>>>>>>> ff9448f0c1ecb58257e5552f627ddd3ef78c6b5d
       {blogs
         .sort((a, b) => b.likes - a.likes)
         .map(blog =>

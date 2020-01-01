@@ -116,7 +116,9 @@ const App = () => {
 
   return (
     <div>
-      <h1>Blogs</h1>
+      <header>
+        <h1>Blogi lista</h1>
+      </header>
       <Notification
         message={message}
         className={role}

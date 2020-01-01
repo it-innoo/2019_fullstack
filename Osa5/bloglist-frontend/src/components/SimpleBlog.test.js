@@ -18,7 +18,7 @@ test('renders title, author and likes', () => {
     />
   )
 
-  component.debug()
+  // component.debug()
   expect(component.container).toHaveTextContent(
     'First class tests Robert C. Martin'
   )

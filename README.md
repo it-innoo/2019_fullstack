@@ -4,4 +4,4 @@
 
 ### 5.15*
 
-Used html5 <mark> and <details>
+Used html5

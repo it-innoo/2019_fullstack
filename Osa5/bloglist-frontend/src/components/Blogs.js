@@ -18,6 +18,15 @@ const Blogs = () => {
     blogFormRef.current.toggleVisibility()
   }
 
+  const Header = () => {
+    return (
+      <header>
+        <h2>Blogs</h2>
+      </header>
+    )
+
+  }
+
   const blogForm = () => {
     return (
       <Togglable
@@ -34,9 +43,16 @@ const Blogs = () => {
 
   //blogs.sort((a, b) => b.likes - a.likes)
 
+  if (user === null) {
+    return (
+      <main className="blogs"></main>
+    )
+  }
+
   return (
     <main className="blogs">
-      {user !== null && blogForm()}
+      <Header />
+      {blogForm()}
       {blogs
         .sort((a, b) => b.likes - a.likes)
         .map(blog =>

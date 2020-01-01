@@ -63,14 +63,9 @@ const BlogForm = ({ onSubmit }) => {
         className={role}
       />
 
-      <h2>blogs</h2>
-
-
-
-      <div>
-        <h2>Create new blog</h2>
-
-        <form onSubmit={addBlog}>
+      <form onSubmit={addBlog}>
+        <fieldset>
+          <legend>Create new blog</legend>
           <div>
             <label htmlFor="title">Title</label>
             <input
@@ -103,8 +98,10 @@ const BlogForm = ({ onSubmit }) => {
             />
           </div>
           <button type="submit">create</button>
-        </form>
-      </div>
+        </fieldset>
+      </form>
+
+
 
     </section>
   )

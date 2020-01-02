@@ -27,19 +27,7 @@ const Blogs = () => {
 
   }
 
-  const blogForm = () => {
-    return (
-      <Togglable
-        buttonLabel="New Blog"
-        ref={blogFormRef}>
-        <BlogForm
-          onSubmit={addBlog}
-        />
-      </Togglable>
-    )
-  }
   const user = window.localStorage.getItem('loggedinUser')
-
 
   //blogs.sort((a, b) => b.likes - a.likes)
 
@@ -52,7 +40,14 @@ const Blogs = () => {
   return (
     <main className="blogs">
       <Header />
-      {blogForm()}
+      <Togglable
+        buttonLabel="New Blog"
+        ref={blogFormRef}>
+        <BlogForm
+          onSubmit={addBlog}
+        />
+      </Togglable>
+
       {blogs
         .sort((a, b) => b.likes - a.likes)
         .map(blog =>

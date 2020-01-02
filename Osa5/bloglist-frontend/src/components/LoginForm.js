@@ -39,7 +39,7 @@ const LoginForm = ({ onSubmit, onClick }) => {
             />
           </div>
 
-          <button type="submit">login</button>
+          <button className="btn btn-login btn-primary btn-block" type="submit">login</button>
         </fieldset>
       </form>
     )

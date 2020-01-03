@@ -41,4 +41,34 @@ describe('<App />', () => {
       expect(blogs).toBeNull()
     })
   })
+
+  describe('when a user logged in', () => {
+    const tester = {
+      username: 'tester',
+      token: '1231231214',
+      name: 'Donald Tester'
+    }
+
+    beforeEach(() => {
+      localStorage
+        .setItem('loggedinUser', JSON.stringify(tester))
+    })
+
+    it('renders all blogs', async () => {
+      const component = render(
+        <App />
+      )
+      component.rerender(<App />)
+
+      await waitForElement(
+        () => component.container.querySelector('.blog')
+      )
+
+      // expectations here
+      const blogs = component
+        .container
+        .querySelectorAll('.blog')
+      expect(blogs.length).toBe(6)
+    })
+  })
 })

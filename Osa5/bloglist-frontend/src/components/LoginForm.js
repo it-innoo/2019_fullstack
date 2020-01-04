@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { useField } from '../hooks'
 
 const LoginForm = ({ onSubmit, onClick }) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const username = useField('text')
+  const password = useField('password')
   const user = JSON.parse(
     window.localStorage.getItem('loggedinUser')
   )
@@ -16,26 +17,22 @@ const LoginForm = ({ onSubmit, onClick }) => {
           <p>
             <label htmlFor="username">Username</label>
             <input
-              type="text"
-              value={username}
+              {...username}
               id="username"
               name="username"
               placeholder="Username"
               required
               autoFocus
-              onChange={({ target }) => setUsername(target.value)}
             />
           </p>
           <div>
             <label htmlFor="password">Password</label>
             <input
-              type="password"
-              value={password}
+              {...password}
               id="password"
               name="password"
               placeholder="Password"
               required
-              onChange={({ target }) => setPassword(target.value)}
             />
           </div>
 

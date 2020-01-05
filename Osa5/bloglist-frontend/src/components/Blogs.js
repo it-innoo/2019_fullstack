@@ -29,8 +29,6 @@ const Blogs = () => {
 
   const user = window.localStorage.getItem('loggedinUser')
 
-  //blogs.sort((a, b) => b.likes - a.likes)
-
   if (user === null) {
     return (
       <main className="blogs"></main>

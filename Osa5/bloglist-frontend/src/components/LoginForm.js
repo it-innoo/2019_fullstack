@@ -1,10 +1,14 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useField } from '../hooks'
 
-const LoginForm = ({ onSubmit, onClick }) => {
-  const username = useField('text')
-  const password = useField('password')
+const LoginForm = ({
+  username,
+  password,
+  onSubmit,
+  onClick
+}) => {
+
   const user = JSON.parse(
     window.localStorage.getItem('loggedinUser')
   )
@@ -17,7 +21,7 @@ const LoginForm = ({ onSubmit, onClick }) => {
           <p>
             <label htmlFor="username">Username</label>
             <input
-              {...username}
+              {...username.fields()}
               id="username"
               name="username"
               placeholder="Username"
@@ -28,7 +32,7 @@ const LoginForm = ({ onSubmit, onClick }) => {
           <div>
             <label htmlFor="password">Password</label>
             <input
-              {...password}
+              {...password.fields()}
               id="password"
               name="password"
               placeholder="Password"
@@ -53,6 +57,8 @@ const LoginForm = ({ onSubmit, onClick }) => {
 }
 
 LoginForm.propTypes = {
+  username: PropTypes.object.isRequired,
+  password: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
 }

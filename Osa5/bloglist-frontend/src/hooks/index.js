@@ -11,7 +11,13 @@ export const useField = (type) => {
     setValue('')
   }
 
+  const fields = () => {
+    const omit = { type, value, onChange }
+    return omit
+  }
+
   return {
+    fields,
     reset,
     type,
     value,

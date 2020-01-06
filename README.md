@@ -2,6 +2,6 @@
 
 ## Osa5
 
-### 5.15*
+### 5.15*:
 
-Used html5
+Used html5 &lt;mark&gt; and &lt;details&gt; and improvised tests.

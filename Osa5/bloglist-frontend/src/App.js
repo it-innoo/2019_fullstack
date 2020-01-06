@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import Blogs from './components/Blogs'
+import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import { useField } from './hooks'
 import './App.css'
 
 const App = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const username = useField('text')
+  const password = useField('password')
   const [user, setUser] = useState(null)
 
   const [message, setMessage] = useState(null)
@@ -29,7 +31,8 @@ const App = () => {
 
     try {
       const user = await loginService.login({
-        username, password
+        username: username.value,
+        password: password.value
       })
 
       window.localStorage.setItem(
@@ -38,16 +41,15 @@ const App = () => {
 
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
+      username.reset()
+      password.reset()
     } catch (error) {
-      console.log('bad credentials')
       setMessage('wrong username and password')
       setRole('alert alert-error')
       setTimeout(() => {
         setMessage(null)
-        setUsername('')
-        setPassword('')
+        username.reset()
+        password.reset()
       }, 5000)
     }
   }
@@ -63,71 +65,31 @@ const App = () => {
   }
 
 
-  const blogForm = () => {
+  const Header = () => {
     return (
-      <div>
-        <p>{user.name} logged in</p>
-        <button className="btn-logout" onClick={handleLogout}>
-          logout
-        </button>
-        <Blogs />
-      </div>
+      <header>
+        <h1>Blogilista</h1>
+      </header>
     )
-  }
 
-  const loginForm = () => {
-
-    return (
-
-      <fieldset>
-        <legend>log in to application</legend>
-        <form onSubmit={handleLogin}>
-          <div>
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              value={username}
-              id="username"
-              name="username"
-              placeholder="Username"
-              required
-              autoFocus
-              onChange={({ target }) => setUsername(target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              type="password"
-              value={password}
-              id="password"
-              name="password"
-              placeholder="Password"
-              required
-              onChange={({ target }) => setPassword(target.value)}
-            />
-          </div>
-
-          <button type="submit">login</button>
-        </form>
-      </fieldset>
-    )
   }
 
   return (
     <div>
-      <header>
-        <h1>Blogi lista</h1>
-      </header>
+      <Header></Header>
       <Notification
         message={message}
         className={role}
       />
-      {user === null ?
-        loginForm() :
-        blogForm()
-      }
 
+      <LoginForm
+        username={username}
+        password={password}
+        onSubmit={handleLogin}
+        onClick={handleLogout}
+      />
+
+      <Blogs></Blogs>
     </div>
   )
 }

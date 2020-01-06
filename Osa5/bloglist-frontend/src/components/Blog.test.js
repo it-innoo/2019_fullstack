@@ -38,13 +38,8 @@ describe('<Blog />', () => {
   })
 
   it('renders all info by clicking', () => {
-    /*
-    const button = component.container.querySelector('mark')
-    expect(button).toBeDefined()
 
-    fireEvent.click(button)
-*/
-    component.debug()
+    //    component.debug()
 
     expect(component.container).toBeDefined()
     expect(component.container).toHaveTextContent(

@@ -18,8 +18,26 @@ const Blogs = () => {
     blogFormRef.current.toggleVisibility()
   }
 
-  const blogForm = () => {
+  const Header = () => {
     return (
+      <header>
+        <h2>Blogs</h2>
+      </header>
+    )
+
+  }
+
+  const user = window.localStorage.getItem('loggedinUser')
+
+  if (user === null) {
+    return (
+      <main className="blogs"></main>
+    )
+  }
+
+  return (
+    <main className="blogs">
+      <Header />
       <Togglable
         buttonLabel="New Blog"
         ref={blogFormRef}>
@@ -27,16 +45,7 @@ const Blogs = () => {
           onSubmit={addBlog}
         />
       </Togglable>
-    )
-  }
-  const user = window.localStorage.getItem('loggedinUser')
 
-
-  //blogs.sort((a, b) => b.likes - a.likes)
-
-  return (
-    <main className="blogs">
-      {user !== null && blogForm()}
       {blogs
         .sort((a, b) => b.likes - a.likes)
         .map(blog =>

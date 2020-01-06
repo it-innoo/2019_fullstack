@@ -4,5 +4,4 @@
 
 ### 5.15*:
 
-Used html5 <mark> and <details> and improvised tests.
-
+Used html5 &lt;mark&gt; and &lt;details&gt; and improvised tests.

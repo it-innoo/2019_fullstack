@@ -1,19 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
 import { createStore } from 'redux'
+import App from './components/App'
 import reducer from './reducer'
 
 const store = createStore(reducer)
 
+const renderApp = () => {
+  ReactDOM.render(
+    <App store={store} />,
+    document.getElementById('root')
+  )
+}
+
+renderApp()
+store.subscribe(renderApp)
+
+/*
+
 const App = () => {
-  /*
   const good = () => {
     store.dispatch({
       type: 'GOOD'
     })
   }
   store.getState()
-  */
 
   return (
 
@@ -44,3 +55,5 @@ const renderApp = () => {
 
 renderApp()
 store.subscribe(renderApp)
+
+*/

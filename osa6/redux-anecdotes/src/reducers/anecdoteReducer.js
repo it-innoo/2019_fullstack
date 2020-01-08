@@ -20,7 +20,9 @@ const asObject = (anecdote) => {
 export const createAnecdote = (content) => {
   return {
     type: 'ADD',
-    content: content
+    id: getId(),
+    content: content,
+    votes: 0
   }
 }
 
@@ -43,9 +45,9 @@ const reducer = (state = initialState, action) => {
       return [
         ...state,
         {
-          id: getId(),
+          id: action.id,
           content: action.content,
-          votes: 0
+          votes: action.votes
         }
       ]
     case 'VOTE':

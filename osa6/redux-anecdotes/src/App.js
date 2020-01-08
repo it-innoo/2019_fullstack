@@ -1,4 +1,6 @@
-import React from 'react';
+import React from 'react'
+import { createAnecdote, voteAnecdote }
+  from './reducers/anecdoteReducer'
 
 const App = ({ store }) => {
   const anecdotes = store.getState()
@@ -7,18 +9,15 @@ const App = ({ store }) => {
     event.preventDefault()
     const content = event.target.content.value
 
-    store.dispatch({
-      type: 'ADD',
-      content: content
-    })
+    store.dispatch(createAnecdote(content))
+    event.target.content.value = ''
   }
 
-  const vote = (id) => {
-    console.log('vote', id)
-    store.dispatch({
-      type: 'VOTE',
-      id: id
-    })
+  const vote = (event) => {
+
+    store.dispatch(
+      voteAnecdote(event)
+    )
   }
 
 

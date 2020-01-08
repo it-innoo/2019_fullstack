@@ -1,9 +1,8 @@
 import React from 'react'
 import { createAnecdote } from '../reducers/anecdoteReducer'
 
-
-
 const AnecdoteForm = ({ store }) => {
+
   const add = (event) => {
     event.preventDefault()
     const content = event.target.content.value

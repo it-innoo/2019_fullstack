@@ -21,26 +21,31 @@ const App = ({ store }) => {
     })
   }
 
+
   return (
-    <div>
+    < div >
       <h2>Anecdotes</h2>
-      {anecdotes.map(anecdote =>
-        <div key={anecdote.id}>
-          <div>
-            {anecdote.content}
-          </div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
-          </div>
-        </div>
-      )}
-      <h2>create new</h2>
+      {
+        anecdotes
+          .sort((a, b) => a.votes < b.votes)
+          .map(anecdote =>
+            <div key={anecdote.id}>
+              <div>
+                {anecdote.content}
+              </div>
+              <div>
+                has {anecdote.votes}
+                <button onClick={() => vote(anecdote.id)}>vote</button>
+              </div>
+            </div>
+          )
+      }
+      < h2 > create new</h2 >
       <form onSubmit={add}>
         <div><input name="content" /></div>
         <button type="submit">create</button>
       </form>
-    </div>
+    </div >
   )
 }
 

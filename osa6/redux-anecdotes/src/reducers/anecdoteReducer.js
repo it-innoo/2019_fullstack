@@ -24,6 +24,15 @@ const reducer = (state = initialState, action) => {
   console.log('action', action)
 
   switch (action.type) {
+    case 'ADD':
+      return [
+        ...state,
+        {
+          id: getId(),
+          content: action.content,
+          votes: 0
+        }
+      ]
     case 'VOTE':
       return state.map(vote =>
         vote.id === action.id ?

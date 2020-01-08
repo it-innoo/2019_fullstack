@@ -2,7 +2,16 @@ import React from 'react';
 
 const App = ({ store }) => {
   const anecdotes = store.getState()
-  console.log(anecdotes)
+
+  const add = (event) => {
+    event.preventDefault()
+    const content = event.target.content.value
+
+    store.dispatch({
+      type: 'ADD',
+      content: content
+    })
+  }
 
   const vote = (id) => {
     console.log('vote', id)
@@ -27,9 +36,9 @@ const App = ({ store }) => {
         </div>
       )}
       <h2>create new</h2>
-      <form>
-        <div><input /></div>
-        <button>create</button>
+      <form onSubmit={add}>
+        <div><input name="content" /></div>
+        <button type="submit">create</button>
       </form>
     </div>
   )

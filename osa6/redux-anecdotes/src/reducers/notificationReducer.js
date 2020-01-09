@@ -19,7 +19,7 @@ export const setMessage = message => {
   }
 }
 
-export const clearMessage = message => {
+export const clearMessage = () => {
   return {
     type: 'CLEAR_MESSAGE',
     message: null

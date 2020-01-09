@@ -5,6 +5,7 @@ import { setMessage, clearMessage } from '../reducers/notificationReducer'
 const AnecdoteList = ({ store }) => {
   const { anecdotes } = store.getState()
 
+
   const vote = (event) => {
     const anecdote = anecdotes.find(a => a.id === event)
 
@@ -24,9 +25,13 @@ const AnecdoteList = ({ store }) => {
     }, 5000)
   }
 
+  console.log('filter now: ', store.getState())
+
   return (
+
     <ul className="list-group">
       {
+
         anecdotes
           .sort((a, b) => a.votes < b.votes)
           .map(anecdote =>

@@ -1,14 +1,27 @@
 import React from 'react'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
+import { setMessage, clearMessage } from '../reducers/notificationReducer'
 
 const AnecdoteList = ({ store }) => {
-  const anecdotes = store.getState().anecdotes
+  const { anecdotes } = store.getState()
 
   const vote = (event) => {
+    const anecdote = anecdotes.find(a => a.id === event)
+
+    store.dispatch(
+      setMessage(`You voted '${anecdote.content}'`)
+    )
 
     store.dispatch(
       voteAnecdote(event)
     )
+
+    setTimeout(() => {
+      store.dispatch(
+        clearMessage()
+      )
+
+    }, 5000)
   }
 
   return (

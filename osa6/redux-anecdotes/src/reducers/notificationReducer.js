@@ -1,13 +1,28 @@
-const message = 'render here notification...'
+//const message = 'render here notification...'
 
-const notificationReducer = (state = message, action) => {
+const notificationReducer = (state = null, action) => {
+
   switch (action.type) {
     case 'SET_MESSAGE':
-      return state
+      return action.message
     case 'CLEAR_MESSAGE':
-      return state
+      return null
     default:
       return state
+  }
+}
+
+export const setMessage = message => {
+  return {
+    type: 'SET_MESSAGE',
+    message: message
+  }
+}
+
+export const clearMessage = message => {
+  return {
+    type: 'CLEAR_MESSAGE',
+    message: null
   }
 }
 

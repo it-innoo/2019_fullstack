@@ -27,7 +27,7 @@ export const createAnecdote = (content) => {
 }
 
 export const voteAnecdote = (id) => {
-  console.log('Vote for: ', id)
+
   return {
     type: 'VOTE',
     id: id

@@ -1,6 +1,9 @@
 import React from 'react'
 
-const Notification = () => {
+const Notification = ({ store }) => {
+  const message = store.getState().messages
+  console.log(`message: ${message}`)
+
   const style = {
     border: 'solid',
     padding: 10,
@@ -8,7 +11,7 @@ const Notification = () => {
   }
   return (
     <div style={style}>
-      render here notification...
+      {message}
     </div>
   )
 }

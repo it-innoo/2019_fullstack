@@ -5,17 +5,14 @@ import Filter from './components/Filter'
 import Notification from './components/Notification'
 
 
-const App = ({ store }) => {
+const App = () => {
 
   return (
-    < div >
+    <div>
       <h2>Anecdotes</h2>
-      <Notification store={store} />
 
-      <Filter store={store} />
-      <AnecdoteList store={store} />
-      <AnecdoteForm store={store} />
-    </div >
+      <AnecdoteList />
+    </div>
   )
 }
 

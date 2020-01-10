@@ -1,38 +1,38 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { setMessage, clearMessage } from '../reducers/notificationReducer'
 
-const AnecdoteList = ({ store }) => {
-  const { anecdotes } = store.getState()
 
+const AnecdoteList = (props) => {
 
   const vote = (event) => {
-    const anecdote = anecdotes.find(a => a.id === event)
+    const anecdote = props.anecdotes.find(a => a.id === event)
 
-    store.dispatch(
+    props.dispatch(
       setMessage(`You voted '${anecdote.content}'`)
     )
 
-    store.dispatch(
+    props.dispatch(
       voteAnecdote(event)
     )
 
     setTimeout(() => {
-      store.dispatch(
+      props.dispatch(
         clearMessage()
       )
 
     }, 5000)
   }
 
-  console.log('filter now: ', store.getState())
+  console.log('filter now: ', props.filter)
 
   return (
 
     <ul className="list-group">
       {
 
-        anecdotes
+        props.anecdotes
           .sort((a, b) => a.votes < b.votes)
           .map(anecdote =>
             <li key={anecdote.id}>
@@ -50,4 +50,13 @@ const AnecdoteList = ({ store }) => {
   )
 }
 
-export default AnecdoteList
+const mapStateToProps = (state) => {
+  // joskus on hyödyllistä tulostaa mapStateToProps:ista...
+  console.log('List state: ', state)
+  return {
+    anecdotes: state.anecdotes,
+    filter: state.filter
+  }
+}
+
+export default connect(mapStateToProps)(AnecdoteList)
